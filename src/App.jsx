@@ -19,78 +19,68 @@ function App() {
   const [cards, setCards] = useState([])
   const [turns, setTurns] = useState(0)
 
-  // Ye store karega ki player ne pehla card kaunsa select kiya
+  // Pehla selected card
   const [choiceOne, setChoiceOne] = useState(null)
 
-  // Ye store karega ki player ne doosra card kaunsa select kiya
+  // Doosra selected card
   const [choiceTwo, setChoiceTwo] = useState(null)
 
-  // Jab 2 cards check ho rahe honge tab clicking ko rokne ke liye
+  // Jab 2 cards check ho rahe hain tab click rokna
   const [disabled, setDisabled] = useState(false)
 
-  // Game 50 seconds se start hoga
+  // Timer 50 seconds se start hoga
   const [timeLeft, setTimeLeft] = useState(50)
 
   // Game start hua hai ya nahi
   const [gameStarted, setGameStarted] = useState(false)
 
-  // Game khatam hua ya nahi
+  // Game over hua ya nahi
   const [gameOver, setGameOver] = useState(false)
 
-  // Player jeeta ya nahi
+  // Game jeeta ya nahi
   const [gameWon, setGameWon] = useState(false)
 
 
   // =========================
-  // SHUFFLE CARDS
+  // SHUFFLE / NEW GAME
   // =========================
 
   const shuffleCards = () => {
 
-    // Sirf Pokémon cards ko duplicate karenge
-    // Isse 5 pairs = 10 Pokémon cards milenge
+    // Pokémon ko duplicate karke pairs bana rahe hain
     const pokemonPairs = [...pokemonCards, ...pokemonCards]
 
-    // Ab Bomb aur Time ko sirf ek-ek baar add karenge
-    // Total = 10 Pokémon + Bomb + Time = 12 cards
+    // Bomb aur Time sirf ek-ek baar
     const newDeck = [...pokemonPairs, ...specialCards]
 
-    // Cards ko shuffle kar rahe hain
+    // Cards shuffle kar rahe hain
     const shuffledCards = newDeck
       .sort(() => Math.random() - 0.5)
       .map((card) => ({
         ...card,
 
-        // Har card ko unique ID denge
+        // Har card ki unique ID
         id: Math.random(),
 
-        // Starting mein saare cards face-down honge
+        // Starting mein card closed hai
         flipped: false,
 
-        // Starting mein koi card matched nahi hai
+        // Starting mein koi pair matched nahi hai
         matched: false
       }))
 
-    // Shuffled cards ko state mein store karna
     setCards(shuffledCards)
 
-    // Moves ko 0 se start karna
+    // Sab kuch reset
     setTurns(0)
-
-    // Purani choices reset karna
     setChoiceOne(null)
     setChoiceTwo(null)
-
-    // Cards ko click karne dena
     setDisabled(false)
 
-    // Timer ko 50 seconds par reset karna
+    // Timer reset
     setTimeLeft(50)
 
-    // Game start ho gaya
     setGameStarted(true)
-
-    // Game over/win ko reset karna
     setGameOver(false)
     setGameWon(false)
   }
@@ -103,27 +93,30 @@ function App() {
   const handleChoice = (card) => {
 
     // Agar cards check ho rahe hain
-    // toh user ko click nahi karne denge
+    // toh koi aur card click nahi kar sakte
     if (disabled) return
 
-    // Agar card already flip hai
-    // toh usko dobara click nahi kar sakte
-    if (card.flipped) return
+    // Agar game over ya won hai
+    // toh card click nahi kar sakte
+    if (gameOver || gameWon) return
 
-    // Agar card already match ho chuka hai
-    // toh usko dobara click nahi kar sakte
-    if (card.matched) return
+    // Agar card already open hai
+    // toh usko dobara click nahi karna
+    if (card.flipped || card.matched) return
 
-    // Selected card ko flip karna
+
+    // Card ko flip karo
     setCards((currentCards) => {
 
       return currentCards.map((item) => {
 
         if (item.id === card.id) {
+
           return {
             ...item,
             flipped: true
           }
+
         }
 
         return item
@@ -131,61 +124,82 @@ function App() {
     })
 
 
-    // Agar pehla card select nahi hua hai
-    // toh current card ko first choice bana do
-    if (!choiceOne) {
+    // Agar first card abhi select nahi hua
+    if (choiceOne === null) {
+
       setChoiceOne(card)
+
     }
 
-    // Agar pehla card already select hai
-    // toh current card ko second choice bana do
-    else {
+    // Agar first card already selected hai
+    else if (choiceTwo === null) {
+
       setChoiceTwo(card)
+
     }
   }
 
 
   // =========================
-  // CHECK CARDS
+  // CHECK TWO CARDS
   // =========================
 
   useEffect(() => {
 
-    // Jab tak dono cards select nahi hote
-    // tab tak kuch nahi karna
-    if (!choiceOne || !choiceTwo) {
+    // Jab tak dono cards select nahi hue
+    // tab tak yahan se return
+    if (choiceOne === null || choiceTwo === null) {
       return
     }
 
-    // Ab temporarily clicking disable kar do
+    // Ab player ko aur cards click nahi karne denge
     setDisabled(true)
 
-    // 2 cards select karna = 1 move
+    // Ek move complete hua
     setTurns((prevTurns) => prevTurns + 1)
 
 
     // =========================
-    // AGAR FIRST CARD BOMB HAI
+    // BOMB
     // =========================
 
-    if (choiceOne.type === "bomb") {
+    if (choiceOne.type === "bomb" || choiceTwo.type === "bomb") {
 
-      // 10 seconds kam kar do
+      // Bomb kis card mein hai wo find karo
+      const bombCard =
+        choiceOne.type === "bomb" ? choiceOne : choiceTwo
+
+      // 10 seconds minus
       setTimeLeft((time) => Math.max(0, time - 10))
 
-      // Thoda time bomb ko dikhane ke liye
+      // Bomb ko thodi der dikhne do
       setTimeout(() => {
 
         setCards((currentCards) => {
 
           return currentCards.map((card) => {
 
-            // Bomb card ko face-down kar do
-            if (card.id === choiceOne.id) {
+            if (card.id === bombCard.id) {
+
               return {
                 ...card,
                 flipped: false
               }
+
+            }
+
+            // Agar doosra card Pokémon tha
+            // usko bhi face-down kar do
+            if (
+              card.id === choiceOne.id ||
+              card.id === choiceTwo.id
+            ) {
+
+              return {
+                ...card,
+                flipped: false
+              }
+
             }
 
             return card
@@ -193,11 +207,11 @@ function App() {
 
         })
 
-        // Choices reset
+        // Choices clear
         setChoiceOne(null)
         setChoiceTwo(null)
 
-        // Dobara clicking allow
+        // Ab cards dobara click kar sakte hain
         setDisabled(false)
 
       }, 1000)
@@ -207,49 +221,16 @@ function App() {
 
 
     // =========================
-    // AGAR SECOND CARD BOMB HAI
+    // TIME CARD
     // =========================
 
-    if (choiceTwo.type === "bomb") {
+    if (choiceOne.type === "time" || choiceTwo.type === "time") {
 
-      // 10 seconds kam kar do
-      setTimeLeft((time) => Math.max(0, time - 10))
+      // Time card find karo
+      const timeCard =
+        choiceOne.type === "time" ? choiceOne : choiceTwo
 
-      setTimeout(() => {
-
-        setCards((currentCards) => {
-
-          return currentCards.map((card) => {
-
-            if (card.id === choiceTwo.id) {
-              return {
-                ...card,
-                flipped: false
-              }
-            }
-
-            return card
-          })
-
-        })
-
-        setChoiceOne(null)
-        setChoiceTwo(null)
-        setDisabled(false)
-
-      }, 1000)
-
-      return
-    }
-
-
-    // =========================
-    // AGAR FIRST CARD TIME HAI
-    // =========================
-
-    if (choiceOne.type === "time") {
-
-      // 10 seconds add kar do
+      // 10 seconds add
       setTimeLeft((time) => time + 10)
 
       setTimeout(() => {
@@ -258,48 +239,16 @@ function App() {
 
           return currentCards.map((card) => {
 
-            if (card.id === choiceOne.id) {
+            if (
+              card.id === choiceOne.id ||
+              card.id === choiceTwo.id
+            ) {
+
               return {
                 ...card,
                 flipped: false
               }
-            }
 
-            return card
-          })
-
-        })
-
-        setChoiceOne(null)
-        setChoiceTwo(null)
-        setDisabled(false)
-
-      }, 1000)
-
-      return
-    }
-
-
-    // =========================
-    // AGAR SECOND CARD TIME HAI
-    // =========================
-
-    if (choiceTwo.type === "time") {
-
-      // 10 seconds add kar do
-      setTimeLeft((time) => time + 10)
-
-      setTimeout(() => {
-
-        setCards((currentCards) => {
-
-          return currentCards.map((card) => {
-
-            if (card.id === choiceTwo.id) {
-              return {
-                ...card,
-                flipped: false
-              }
             }
 
             return card
@@ -321,15 +270,14 @@ function App() {
     // NORMAL POKEMON MATCH
     // =========================
 
-    // Dono cards ka name same hai
-    // toh ye matching pair hai
     if (choiceOne.name === choiceTwo.name) {
 
+      // Dono cards same Pokémon hain
+      // isliye unko matched bana do
       setCards((currentCards) => {
 
         return currentCards.map((card) => {
 
-          // Dono matching cards ko matched bana do
           if (
             card.id === choiceOne.id ||
             card.id === choiceTwo.id
@@ -348,13 +296,11 @@ function App() {
       })
 
 
-      // Choices reset
+      // Selection clear
       setTimeout(() => {
 
         setChoiceOne(null)
         setChoiceTwo(null)
-
-        // Dobara click karne dena
         setDisabled(false)
 
       }, 500)
@@ -363,19 +309,18 @@ function App() {
 
 
     // =========================
-    // NO MATCH
+    // WRONG MATCH
     // =========================
 
     else {
 
-      // 1 second tak dono cards visible rahenge
+      // 1 second tak cards visible rahenge
       setTimeout(() => {
 
         setCards((currentCards) => {
 
           return currentCards.map((card) => {
 
-            // Dono selected cards ko face-down kar do
             if (
               card.id === choiceOne.id ||
               card.id === choiceTwo.id
@@ -393,16 +338,14 @@ function App() {
 
         })
 
-
-        // Choices reset
+        // Selection clear
         setChoiceOne(null)
         setChoiceTwo(null)
 
-        // Dobara cards click karne dena
+        // Ab next cards choose kar sakte hain
         setDisabled(false)
 
       }, 1000)
-
     }
 
   }, [choiceOne, choiceTwo])
@@ -419,21 +362,23 @@ function App() {
       return
     }
 
-    // Agar game already over ya won hai
-    // toh timer stop rahega
+    // Game over/win hone par timer stop
     if (gameOver || gameWon) {
       return
     }
 
-    // Agar time 0 ho gaya
-    // toh game over
+    // Time khatam
     if (timeLeft <= 0) {
+
+      setTimeLeft(0)
       setGameOver(true)
       setDisabled(true)
+
       return
     }
 
-    // Har 1 second mein time ko 1 kam karo
+
+    // Har 1 second mein 1 second kam
     const timer = setInterval(() => {
 
       setTimeLeft((time) => time - 1)
@@ -441,8 +386,7 @@ function App() {
     }, 1000)
 
 
-    // Purana timer remove kar do
-    // warna multiple timers chalne lagenge
+    // Purana timer remove karo
     return () => clearInterval(timer)
 
   }, [gameStarted, timeLeft, gameOver, gameWon])
@@ -454,21 +398,21 @@ function App() {
 
   useEffect(() => {
 
-    // Agar game start hi nahi hua
-    // toh win check nahi karna
+    // Game start hone se pehle check nahi karna
     if (cards.length === 0) {
       return
     }
 
-    // Sirf Pokémon cards ko check kar rahe hain
-    // Bomb aur Time pair nahi hain
-    const allMatched = cards
-      .filter((card) => card.type === "pokemon")
-      .every((card) => card.matched)
+    // Sirf Pokémon cards check karenge
+    const pokemonOnly = cards.filter(
+      (card) => card.type === "pokemon"
+    )
 
+    // Check karo kya saare Pokémon matched hain
+    const allMatched = pokemonOnly.every(
+      (card) => card.matched
+    )
 
-    // Agar saare 10 Pokémon cards matched hain
-    // toh player win kar gaya
     if (allMatched) {
 
       setGameWon(true)
@@ -489,8 +433,6 @@ function App() {
       <h1>Memory magic</h1>
 
 
-      {/* Timer aur moves */}
-
       <div className="game-info">
 
         <div>
@@ -504,32 +446,20 @@ function App() {
       </div>
 
 
-      {/* New Game button */}
-
       <button onClick={shuffleCards}>
         {gameStarted ? "New Game" : "Start Game"}
       </button>
 
 
-      {/* Win message */}
-
       {gameWon && (
-        <h2>
-          🎉 You Won!
-        </h2>
+        <h2>🎉 You Won!</h2>
       )}
 
-
-      {/* Game over message */}
 
       {gameOver && (
-        <h2>
-          💣 Game Over!
-        </h2>
+        <h2>💣 Game Over!</h2>
       )}
 
-
-      {/* Cards */}
 
       <div className="card-grid">
 
@@ -537,16 +467,15 @@ function App() {
 
           <div
             className={`card ${
-              card.flipped || card.matched ? "flipped" : ""
+              card.flipped || card.matched
+                ? "flipped"
+                : ""
             }`}
             key={card.id}
             onClick={() => handleChoice(card)}
           >
 
             <div className="card-inner">
-
-
-              {/* Card ka front/image */}
 
               <div className="card-front">
 
@@ -556,9 +485,6 @@ function App() {
                 />
 
               </div>
-
-
-              {/* Card ka back */}
 
               <div className="card-back">
                 ?
