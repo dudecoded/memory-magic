@@ -41,9 +41,9 @@ function App() {
   const [gameWon, setGameWon] = useState(false)
 
 
-  // =========================
+  
   // SHUFFLE / NEW GAME
-  // =========================
+
 
   const shuffleCards = () => {
 
@@ -86,9 +86,9 @@ function App() {
   }
 
 
-  // =========================
+ 
   // CARD CLICK
-  // =========================
+
 
   const handleChoice = (card) => {
 
@@ -140,9 +140,9 @@ function App() {
   }
 
 
-  // =========================
+
   // CHECK TWO CARDS
-  // =========================
+
 
   useEffect(() => {
 
@@ -159,9 +159,9 @@ function App() {
     setTurns((prevTurns) => prevTurns + 1)
 
 
-    // =========================
+    
     // BOMB
-    // =========================
+
 
     if (choiceOne.type === "bomb" || choiceTwo.type === "bomb") {
 
@@ -220,9 +220,8 @@ function App() {
     }
 
 
-    // =========================
     // TIME CARD
-    // =========================
+
 
     if (choiceOne.type === "time" || choiceTwo.type === "time") {
 
@@ -266,9 +265,9 @@ function App() {
     }
 
 
-    // =========================
+  
     // NORMAL POKEMON MATCH
-    // =========================
+
 
     if (choiceOne.name === choiceTwo.name) {
 
@@ -308,9 +307,9 @@ function App() {
     }
 
 
-    // =========================
+ 
     // WRONG MATCH
-    // =========================
+  
 
     else {
 
@@ -351,9 +350,8 @@ function App() {
   }, [choiceOne, choiceTwo])
 
 
-  // =========================
   // TIMER
-  // =========================
+
 
   useEffect(() => {
 
@@ -392,9 +390,9 @@ function App() {
   }, [gameStarted, timeLeft, gameOver, gameWon])
 
 
-  // =========================
+
   // CHECK WIN
-  // =========================
+
 
   useEffect(() => {
 
@@ -423,9 +421,8 @@ function App() {
   }, [cards])
 
 
-  // =========================
-  // DISPLAY
-  // =========================
+    // DISPLAY
+  
 
   return (
     <div className="App">
