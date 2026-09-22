@@ -825,3 +825,57 @@ h1 {
   text-transform: uppercase;
   opacity: 0.7;
 }
+
+.game-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin: 20px 0 30px;
+}
+
+.game-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  border: none;
+  border-radius: 10px;
+
+  padding: 12px 20px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.new-game-button {
+  background: #c23866;
+  color: white;
+}
+
+.new-game-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(194, 56, 102, 0.35);
+}
+
+.high-score-button {
+  background: #30263b;
+  color: white;
+  border: 1px solid #4b3c58;
+}
+
+.high-score-button:hover {
+  transform: translateY(-2px);
+  background: #3b2d47;
+}
+
+.used-card {
+  opacity: 0.65;
+}
