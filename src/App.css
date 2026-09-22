@@ -1,146 +1,827 @@
+/* Main layout */
+
+.app-layout {
+  min-height: 100vh;
+  display: flex;
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(194, 56, 102, 0.14),
+      transparent 45%
+    ),
+    #17131c;
+}
+
+
+/* Sidebar */
+
+.sidebar {
+  position: fixed;
+  left: 18px;
+  top: 18px;
+  bottom: 18px;
+
+  width: 240px;
+
+  display: flex;
+  flex-direction: column;
+
+  padding: 18px 12px;
+
+  background: rgba(35, 29, 42, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 22px;
+
+  backdrop-filter: blur(20px);
+
+  transition:
+    width 0.3s ease,
+    box-shadow 0.3s ease;
+
+  z-index: 100;
+}
+
+.sidebar.collapsed {
+  width: 68px;
+}
+
+
+/* Sidebar top */
+
+.sidebar-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 35px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  overflow: hidden;
+}
+
+.brand-icon {
+  min-width: 38px;
+  height: 38px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 12px;
+
+  background: #c23866;
+  color: white;
+
+  box-shadow: 0 0 20px rgba(194, 56, 102, 0.35);
+}
+
+.brand-name {
+  white-space: nowrap;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  color: white;
+}
+
+.collapse-btn {
+  width: 32px;
+  height: 32px;
+
+  padding: 0;
+  margin: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+  border-radius: 9px;
+
+  background: rgba(255, 255, 255, 0.06);
+
+  color: #aaa;
+
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+}
+
+.collapse-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: white;
+
+  transform: none;
+  box-shadow: none;
+}
+
+
+/* Sidebar navigation */
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.nav-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.section-title {
+  padding: 0 12px;
+  margin-bottom: 5px;
+
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+
+  color: #777;
+}
+
+.nav-item {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  gap: 13px;
+
+  padding: 11px 12px;
+  margin: 0;
+
+  border: none;
+  border-radius: 12px;
+
+  background: transparent;
+
+  color: #aaa;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  cursor: pointer;
+  text-align: left;
+
+  transition: all 0.2s ease;
+}
+
+.nav-item svg {
+  min-width: 18px;
+}
+
+.nav-item:hover {
+  background: rgba(255, 255, 255, 0.07);
+  color: white;
+
+  transform: none;
+  box-shadow: none;
+}
+
+.nav-item.active {
+  background: #c23866;
+  color: white;
+
+  box-shadow: 0 8px 25px rgba(194, 56, 102, 0.25);
+}
+
+
+/* Sidebar bottom */
+
+.sidebar-bottom {
+  margin-top: auto;
+}
+
+.theme-btn {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  gap: 13px;
+
+  padding: 11px 12px;
+  margin: 0;
+
+  border: none;
+  border-radius: 12px;
+
+  background: rgba(255, 255, 255, 0.05);
+
+  color: #aaa;
+
+  font-size: 13px;
+
+  cursor: pointer;
+  text-align: left;
+
+  transition: all 0.2s ease;
+}
+
+.theme-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+
+  transform: none;
+  box-shadow: none;
+}
+
+.version {
+  margin-top: 18px;
+  padding: 0 10px;
+
+  display: flex;
+  justify-content: space-between;
+
+  font-size: 10px;
+  color: #666;
+}
+
+.version span {
+  color: #555;
+}
+
+
+/* Main content */
+
+.main-content {
+  width: 100%;
+  min-height: 100vh;
+
+  margin-left: 276px;
+  padding: 35px 30px;
+
+  display: flex;
+  justify-content: center;
+
+  box-sizing: border-box;
+
+  transition: margin-left 0.3s ease;
+}
+
+
+/* Game container */
+
 .App {
-  max-width: 800px;
-  margin: 30px auto;
+  width: 100%;
+  max-width: 850px;
+
+  margin: 0;
   padding: 20px;
 }
+
+
+/* Heading */
 
 h1 {
   margin-bottom: 15px;
 
-  /* More attractive Memory Magic title */
-  font-size: 2.8rem;
+  font-size: 3rem;
   font-weight: 800;
+
   letter-spacing: 2px;
-  color: #c23866;
-  text-shadow: 0 0 10px rgba(194, 56, 102, 0.5);
+
+  background: linear-gradient(
+    90deg,
+    #c23866,
+    #ff7da4,
+    #ffffff,
+    #c23866
+  );
+
+  background-size: 300% auto;
+
+  background-clip: text;
+  -webkit-background-clip: text;
+
+  color: transparent;
+
+  animation: gradientMove 5s linear infinite;
 }
 
-/* Optional: if your title is specifically Memory Magic */
-h1:hover {
-  transform: scale(1.03);
-  text-shadow: 0 0 18px rgba(194, 56, 102, 0.8);
-  transition: 0.3s ease;
+@keyframes gradientMove {
+  to {
+    background-position: 300% center;
+  }
 }
+
+
+/* Game information */
 
 .game-info {
   display: flex;
   justify-content: center;
-  gap: 50px;
-  margin: 15px 0;
+  gap: 15px;
+
+  margin: 20px 0;
 }
 
-button {
-  background: none;
-  border: 2px solid #fff;
-  padding: 8px 16px;
-  border-radius: 6px;
-  color: #fff;
-  font-weight: bold;
+.game-info > div {
+  min-width: 100px;
+
+  padding: 12px 18px;
+
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 14px;
+
+  background: rgba(255, 255, 255, 0.04);
+
+  color: #aaa;
+
+  font-size: 13px;
+
+  transition: all 0.2s ease;
+}
+
+.game-info > div:hover {
+  background: rgba(255, 255, 255, 0.07);
+
+  transform: translateY(-2px);
+}
+
+.game-info strong {
+  display: block;
+
+  margin-top: 3px;
+
+  color: white;
+
+  font-size: 18px;
+}
+
+
+/* Start / New Game button */
+
+.App > button {
+  background: #c23866;
+
+  border: none;
+
+  padding: 11px 24px;
+
+  border-radius: 12px;
+
+  color: white;
+
+  font-weight: 700;
+
   cursor: pointer;
-  font-size: 1em;
-  margin-bottom: 20px;
 
-  /* Smooth hover */
-  transition: all 0.25s ease;
+  transition: all 0.2s ease;
 }
 
-button:hover {
-  background-color: #c23866;
-  border-color: #c23866;
-  transform: translateY(-3px);
-  box-shadow: 0 6px 15px rgba(194, 56, 102, 0.4);
+.App > button:hover {
+  background: #d94b78;
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 8px 25px rgba(194, 56, 102, 0.3);
 }
 
-/* 12 cards ka grid */
+.App > button:active {
+  transform: translateY(0);
+}
+
+
+/* Game messages */
+
+.App h2 {
+  margin: 20px 0;
+
+  font-size: 1.4rem;
+
+  animation: messageAppear 0.4s ease;
+}
+
+@keyframes messageAppear {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* Card grid */
 
 .card-grid {
   display: grid;
 
-  /* 4 cards ek row mein */
   grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
-  max-width: 600px;
-  margin: 20px auto;
+
+  gap: 16px;
+
+  width: 100%;
+  max-width: 620px;
+
+  margin: 30px auto;
 }
+
 
 /* Individual card */
 
 .card {
-  width: 130px;
-  height: 130px;
+  width: 100%;
+  aspect-ratio: 1;
+
   cursor: pointer;
+
   perspective: 1000px;
 
-  /* Card hover */
-  transition: transform 0.25s ease, filter 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    filter 0.25s ease;
 }
 
 .card:hover {
   transform: translateY(-6px) scale(1.03);
-  filter: drop-shadow(0 8px 12px rgba(194, 56, 102, 0.35));
+
+  filter:
+    drop-shadow(
+      0 8px 15px rgba(194, 56, 102, 0.3)
+    );
 }
 
-/* Card ke andar ka part */
+
+/* Card inner */
 
 .card-inner {
   position: relative;
+
   width: 100%;
   height: 100%;
+
   transition: transform 0.5s;
+
   transform-style: preserve-3d;
 }
 
-/* Jab card flipped ho */
+
+/* Flipped card */
 
 .card.flipped .card-inner {
   transform: rotateY(180deg);
 }
 
-/* Front aur back dono same jagah par */
+
+/* Front and back */
 
 .card-front,
 .card-back {
   position: absolute;
+
   width: 100%;
   height: 100%;
+
   backface-visibility: hidden;
-  border-radius: 10px;
+
+  border-radius: 14px;
+
   overflow: hidden;
 }
+
 
 /* Pokémon image */
 
 .card-front {
   transform: rotateY(180deg);
+
   background: white;
+
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
 .card-front img {
   width: 100%;
   height: 100%;
+
   object-fit: cover;
 }
 
-/* Card ka hidden/back side */
+
+/* Card back */
 
 .card-back {
-  background: #c23866;
   display: flex;
+
   justify-content: center;
   align-items: center;
+
+  background:
+    radial-gradient(
+      circle at 30% 20%,
+      #e85d88,
+      #c23866 45%,
+      #8f2149
+    );
+
   font-size: 3rem;
   font-weight: bold;
+
+  color: white;
+
+  box-shadow:
+    inset 0 0 0 2px rgba(255, 255, 255, 0.12),
+    0 8px 20px rgba(0, 0, 0, 0.2);
 }
+
+
+/* Matched cards */
+
+.card.flipped .card-front {
+  box-shadow:
+    0 0 0 2px rgba(255, 203, 5, 0.35),
+    0 0 25px rgba(255, 203, 5, 0.2);
+}
+
 
 /* Mobile */
 
-@media (max-width: 650px) {
+@media (max-width: 700px) {
+
+  .sidebar {
+    left: 10px;
+    right: 10px;
+    top: 10px;
+    bottom: auto;
+
+    width: auto;
+    height: 62px;
+
+    flex-direction: row;
+    align-items: center;
+
+    padding: 10px 12px;
+  }
+
+  .sidebar.expanded {
+    width: auto;
+  }
+
+  .sidebar-nav,
+  .sidebar-bottom {
+    display: none;
+  }
+
+  .sidebar-top {
+    width: 100%;
+    margin: 0;
+  }
+
+  .main-content {
+    margin-left: 0;
+
+    padding: 95px 15px 20px;
+  }
+
+  .App {
+    padding: 10px;
+  }
+
+  h1 {
+    font-size: 2.3rem;
+  }
+
+  .game-info {
+    gap: 10px;
+  }
+
+  .game-info > div {
+    min-width: 85px;
+    padding: 10px 14px;
+  }
+
   .card-grid {
     grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
   }
 
   .card {
-    width: 100px;
-    height: 100px;
+    border-radius: 10px;
   }
+
+  .card-front,
+  .card-back {
+    border-radius: 10px;
+  }
+}
+
+
+/* Small phones */
+
+@media (max-width: 420px) {
+
+  .main-content {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  .card-grid {
+    gap: 8px;
+  }
+
+  .game-info > div {
+    min-width: 75px;
+  }
+}
+
+
+/* Reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+/* Page layout */
+
+.app-layout {
+  min-height: 100vh;
+  display: flex;
+}
+
+/* Sidebar */
+
+.sidebar {
+  width: 230px;
+  min-height: 100vh;
+  background: #211a2b;
+  padding: 20px 14px;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  transition: width 0.25s ease;
+}
+
+.sidebar.collapsed {
+  width: 70px;
+}
+
+/* Sidebar top */
+
+.sidebar-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 35px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #c23866;
+}
+
+.brand-name {
+  font-size: 16px;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.collapse-btn {
+  border: none;
+  background: transparent;
+  color: white;
+  cursor: pointer;
+  padding: 6px;
+}
+
+/* Navigation */
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.nav-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.section-title {
+  font-size: 11px;
+  color: #8d8497;
+  margin: 0 10px 6px;
+  letter-spacing: 1px;
+}
+
+.nav-item,
+.theme-btn {
+  width: 100%;
+  border: none;
+  background: transparent;
+  color: #bdb5c7;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  text-align: left;
+}
+
+.nav-item:hover,
+.theme-btn:hover {
+  background: #30263b;
+  color: white;
+}
+
+.nav-item.active {
+  background: #c23866;
+  color: white;
+}
+
+/* Bottom */
+
+.sidebar-bottom {
+  margin-top: auto;
+}
+
+.theme-btn {
+  margin-bottom: 20px;
+}
+
+.version {
+  color: #756c80;
+  font-size: 11px;
+  padding: 0 10px;
+}
+
+.version span {
+  margin-left: 5px;
+}
+
+/* Main content */
+
+.main-content {
+  flex: 1;
+  min-width: 0;
+}
+/* Editorial heading */
+
+.hero-heading {
+  margin-bottom: 35px;
+}
+
+.hero-small-text {
+  font-size: 11px;
+  letter-spacing: 3px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  opacity: 0.7;
+}
+
+.hero-heading h1 {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: clamp(4rem, 11vw, 9rem);
+  line-height: 0.78;
+  letter-spacing: -7px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.hero-heading h1 span {
+  display: block;
+}
+
+.hero-description {
+  margin-top: 25px;
+  font-size: 14px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  opacity: 0.7;
 }
